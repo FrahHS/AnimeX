@@ -8,6 +8,8 @@ class HomepageScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return const AppScaffold(
+      showLogo: true,
+      showSearch: true,
       body: Padding(
         padding: EdgeInsets.fromLTRB(10.0, 0.0, 0.0, 50.0),
         child: Column(

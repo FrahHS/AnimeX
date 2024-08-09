@@ -1,13 +1,17 @@
-import 'package:animex/shared/slide_app_bar.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 
 class AppScaffold  extends StatefulWidget {
   const AppScaffold({
     super.key,
     required this.body,
+    this.showLogo = false,
+    this.showSearch = false,
   });
 
   final Widget body;
+  final bool showLogo;
+  final bool showSearch;
 
   @override
   State<AppScaffold> createState() => _AppScaffoldState();
@@ -33,22 +37,40 @@ class _AppScaffoldState extends State<AppScaffold> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Stack(
-        children: [
-          CustomScrollView(
-            controller: _scrollController,
-            slivers: [
-              SliverToBoxAdapter(
-                child: Padding(
-                  padding: const EdgeInsets.fromLTRB(0.0, 80.0, 0.0, 0.0),
-                  child: widget.body,
-                ),
-              )
-            ],
+      extendBodyBehindAppBar: true,
+      appBar: AppBar(
+        elevation: 0,
+        toolbarHeight: 50,
+        surfaceTintColor: Colors.transparent,
+        backgroundColor: Colors.black.withOpacity((_scrollControllerOffset / 250).clamp(0, 0.8).toDouble()),
+        title: Visibility(
+          visible: widget.showLogo,
+          child: const FlutterLogo(size: 40,),
+        ),
+        actions: [
+          Visibility(
+            visible: widget.showSearch,
+            child: IconButton(
+              onPressed: () {
+                context.go("/homepage/search");
+              },
+              icon: const Icon(
+                Icons.search,
+                size: 30,
+              ),
+            ),
           ),
-          SlideAppBar(
-            scrollOffset: _scrollControllerOffset,
-          ),
+        ],
+      ),
+      body: CustomScrollView(
+        controller: _scrollController,
+        slivers: [
+          SliverToBoxAdapter(
+            child: Padding(
+              padding: const EdgeInsets.fromLTRB(0.0, 80.0, 0.0, 0.0),
+              child: widget.body,
+            ),
+          )
         ],
       ),
     );

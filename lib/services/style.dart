@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-Color _primaryColor = const Color(0xFFE50914);
+Color _primaryColor = Colors.white;
 
 ThemeData darkTheme = ThemeData(
   useMaterial3: true,

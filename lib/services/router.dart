@@ -1,5 +1,6 @@
 import 'package:animex/features/home/presentation/homepage_screen.dart';
 import 'package:animex/features/profile/presentation/profile_screen.dart';
+import 'package:animex/features/search/presentation/search_screen.dart';
 import 'package:animex/shared/bottom_navigationbar_page.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
@@ -11,12 +12,12 @@ final _homeTabNavigatorKey = GlobalKey<NavigatorState>();
 final _profileTabNavigatorKey = GlobalKey<NavigatorState>();
 
 //pages paths
-const profilePath = '/profile';
-const profileChangePasswordPath = '/change-password';
-const homepagePath = '/homepage';
-
 const loginPath = '/login';
 const registerPath = '/register';
+const profilePath = '/profile';
+const searchPath = 'search';
+const homepagePath = '/homepage';
+
 
 final router = GoRouter(
   initialLocation: '/homepage',
@@ -47,6 +48,26 @@ final router = GoRouter(
                   state: state,
                 );
               },
+              routes: [
+                GoRoute(
+                  parentNavigatorKey: _rootNavigatorKey,
+                  path: searchPath,
+                  pageBuilder: (context, state) => CustomTransitionPage<void>(
+                    key: state.pageKey,
+                    child: const SearchScreen(),
+                    transitionsBuilder: (context, animation, secondaryAnimation, child) =>
+                      SlideTransition(
+                        position: animation.drive(
+                          Tween<Offset>(
+                            begin: const Offset(1, 0),
+                            end: Offset.zero,
+                          ).chain(CurveTween(curve: Curves.linear)),
+                        ),
+                        child: child
+                      ),
+                  ),
+                ),
+              ],
             ),
           ],
         ),
