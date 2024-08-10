@@ -1,4 +1,4 @@
-import 'package:animex/features/home/presentation/homepage_row.dart';
+import 'package:animex/features/media/presentation/home/homepage_row.dart';
 import 'package:animex/shared/app_scaffold.dart';
 import 'package:flutter/material.dart';
 

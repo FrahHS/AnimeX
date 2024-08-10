@@ -1,7 +1,7 @@
-import 'package:animex/features/home/presentation/homepage_screen.dart';
+import 'package:animex/features/media/presentation/home/homepage_screen.dart';
 import 'package:animex/features/profile/presentation/profile_screen.dart';
-import 'package:animex/features/search/presentation/search_screen.dart';
-import 'package:animex/features/video_player/presentation/video_player.dart';
+import 'package:animex/features/media/presentation/search/search_screen.dart';
+import 'package:animex/features/media/presentation/player/video_player.dart';
 import 'package:animex/shared/bottom_navigationbar_page.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';

@@ -1,4 +1,4 @@
-import 'package:animex/features/home/presentation/anime_card.dart';
+import 'package:animex/features/media/presentation/home/anime_card.dart';
 import 'package:flutter/material.dart';
 
 class HomePageRow extends StatelessWidget {

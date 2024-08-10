@@ -1,8 +1,8 @@
 import 'dart:async';
 
-import 'package:animex/features/video_player/presentation/tools/video_control_buttons.dart';
-import 'package:animex/features/video_player/presentation/tools/video_timeline.dart';
-import 'package:animex/features/video_player/presentation/tools/video_toolbar.dart';
+import 'package:animex/features/media/presentation/player/tools/video_control_buttons.dart';
+import 'package:animex/features/media/presentation/player/tools/video_timeline.dart';
+import 'package:animex/features/media/presentation/player/tools/video_toolbar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:go_router/go_router.dart';
@@ -25,25 +25,14 @@ class _VideoPlayerScreenState extends State<VideoPlayerScreen> {
   void initState() {
     super.initState();
 
-    // Create and store the VideoPlayerController. The VideoPlayerController
-    // offers several different constructors to play videos from assets, files,
-    // or the internet.
     _controller = VideoPlayerController.networkUrl(
       Uri.parse(
         'https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ElephantsDream.mp4',
       ),
     );
 
-    // Initialize the controller and store the Future for later use.
     _initializeVideoPlayerFuture = _controller.initialize();
-  }
-
-  @override
-  void dispose() {
-    // Ensure disposing of the VideoPlayerController to free up resources.
-    _controller.dispose();
-
-    super.dispose();
+    _controller.play();
   }
 
   @override
@@ -88,7 +77,7 @@ class _VideoPlayerScreenState extends State<VideoPlayerScreen> {
               if (snapshot.connectionState == ConnectionState.done) {
                 // If the VideoPlayerController has finished initialization, use
                 // the data it provides to limit the aspect ratio of the video.
-                _controller.play();
+                
                 return Stack(
                   children: [
                     Center(

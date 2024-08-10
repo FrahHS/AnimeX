@@ -18,12 +18,12 @@ class _VideoTimelineState extends State<VideoTimeline> {
   late double _barLenght;
   late double _cursorPosition;
   late double _barPosition;
+  late String _positionText;
   bool _isDragging = false;
 
   @override
   void initState() {
-    _cursorPosition = widget.controller.value.position.inMilliseconds / widget.controller.value.duration.inMilliseconds;
-    _barPosition = widget.controller.value.position.inMilliseconds / widget.controller.value.duration.inMilliseconds;
+    checkVideo();
     widget.controller.addListener(checkVideo);
     super.initState();
   }
@@ -113,7 +113,7 @@ class _VideoTimelineState extends State<VideoTimeline> {
           ),
           Padding(
             padding: const EdgeInsets.fromLTRB(0, 0.0, 0.0, 0.0),
-            child: Text(widget.controller.value.position.toString().split('.')[0]),
+            child: Text(_positionText, style: const TextStyle(fontSize: 14),),
           )
         ],
       ),
@@ -126,6 +126,19 @@ class _VideoTimelineState extends State<VideoTimeline> {
         _cursorPosition = widget.controller.value.position.inSeconds / widget.controller.value.duration.inSeconds;
       }
       _barPosition = widget.controller.value.position.inSeconds / widget.controller.value.duration.inSeconds;
+      _positionText = _durationToString(
+        Duration(seconds: (widget.controller.value.duration.inSeconds - widget.controller.value.position.inSeconds))
+      );
     });
+  }
+
+  String _durationToString(Duration duration) {
+    String str = duration.toString();
+    str = str.split('.')[0];
+    if(str.split(':')[0] == '0') {
+      str = (str.split(':')..removeAt(0)).join(":");
+    }
+
+    return str;
   }
 }
