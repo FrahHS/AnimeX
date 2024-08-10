@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
 
 class ResultTile extends StatelessWidget {
   const ResultTile({super.key});
@@ -28,9 +27,7 @@ class ResultTile extends StatelessWidget {
           child: Material(
             color: Colors.transparent,
             child: InkWell(
-              onTap: () {
-                context.go("/homepage/search/player");
-              },
+              onTap: () {},
             ),
           ),
         ),
@@ -41,9 +38,21 @@ class ResultTile extends StatelessWidget {
   _cover(BuildContext context) {
     return ClipRRect(
         borderRadius: const BorderRadius.all(Radius.circular(5)),
-        child: Image.network(
-          height: MediaQuery.of(context).size.height * 0.18,
-          "https://img.animeunity.to/anime/139965.jpg",
+        child: Stack(
+          children: [
+            Image.network(
+              height: MediaQuery.of(context).size.height * 0.18,
+              "https://img.animeunity.to/anime/139965.jpg",
+            ),
+            Positioned.fill(
+              child: Material(
+                color: Colors.transparent,
+                child: InkWell(
+                  onTap: () {},
+                ),
+              ),
+            ),
+          ],
         ),
       );
   }

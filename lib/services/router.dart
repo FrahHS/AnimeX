@@ -1,6 +1,7 @@
 import 'package:animex/features/home/presentation/homepage_screen.dart';
 import 'package:animex/features/profile/presentation/profile_screen.dart';
 import 'package:animex/features/search/presentation/search_screen.dart';
+import 'package:animex/features/video_player/presentation/video_player.dart';
 import 'package:animex/shared/bottom_navigationbar_page.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
@@ -17,6 +18,7 @@ const registerPath = '/register';
 const profilePath = '/profile';
 const searchPath = 'search';
 const homepagePath = '/homepage';
+const playerPath = 'player';
 
 
 final router = GoRouter(
@@ -66,6 +68,13 @@ final router = GoRouter(
                         child: child
                       ),
                   ),
+                  routes: [
+                    GoRoute(
+                      parentNavigatorKey: _rootNavigatorKey,
+                      path: playerPath,
+                      builder: (context, state) => const VideoPlayerScreen(),
+                    ),
+                  ]
                 ),
               ],
             ),
