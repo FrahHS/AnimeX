@@ -1,8 +1,6 @@
 import 'package:animex/features/search/presentation/result_tile.dart';
 import 'package:animex/features/search/presentation/search_bar.dart';
-import 'package:animex/shared/app_scaffold.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 
 class SearchScreen  extends StatefulWidget {
   const SearchScreen({

@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:animex/features/video_player/presentation/tools/video_control_buttons.dart';
 import 'package:animex/features/video_player/presentation/tools/video_timeline.dart';
+import 'package:animex/features/video_player/presentation/tools/video_toolbar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:go_router/go_router.dart';
@@ -30,7 +31,6 @@ class _VideoPlayerScreenState extends State<VideoPlayerScreen> {
     _controller = VideoPlayerController.networkUrl(
       Uri.parse(
         'https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ElephantsDream.mp4',
-        //'https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerEscapes.mp4',
       ),
     );
 
@@ -88,6 +88,7 @@ class _VideoPlayerScreenState extends State<VideoPlayerScreen> {
               if (snapshot.connectionState == ConnectionState.done) {
                 // If the VideoPlayerController has finished initialization, use
                 // the data it provides to limit the aspect ratio of the video.
+                _controller.play();
                 return Stack(
                   children: [
                     Center(
@@ -129,53 +130,81 @@ class VideoPlayerTools extends StatefulWidget {
 class _VideoPlayerToolsState extends State<VideoPlayerTools> {
   @override
   Widget build(BuildContext context) {
-    return Visibility(
-      visible: widget.visible,
-      child: Stack(
-        children: [
-          Container(
-            decoration: BoxDecoration(
-              gradient: LinearGradient(
-                begin: Alignment.topCenter,
-                end: Alignment.bottomCenter,
-                colors: [
-                  Colors.black.withOpacity(0.6),
-                  Colors.transparent,
-                  Colors.transparent,
-                  Colors.black.withOpacity(0.6),
-                ],
+    return AbsorbPointer(
+      absorbing: !widget.visible,
+      child: AnimatedOpacity(
+        duration: const Duration(milliseconds: 500),
+        curve: Curves.fastOutSlowIn,
+        opacity: widget.visible ? 1 : 0,
+        child: Stack(
+          children: [
+            Container(
+              decoration: BoxDecoration(
+                gradient: LinearGradient(
+                  begin: Alignment.topCenter,
+                  end: Alignment.bottomCenter,
+                  colors: [
+                    Colors.black.withOpacity(0.6),
+                    Colors.transparent,
+                    Colors.transparent,
+                    Colors.black.withOpacity(0.6),
+                  ],
+                ),
               ),
             ),
-          ),
-          Center(
-            child: VideoControlButtons(controller: widget.controller,)
-          ),
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                IconButton(
-                  onPressed: () {
-                    context.pop();
-                  },
-                  icon: const Icon(Icons.arrow_back, size: 28,),
-                ),
-                const Text("S1:E33 One Piece", style: TextStyle(fontSize: 15),),
-                IconButton(
-                  onPressed: () {},
-                  icon: const Icon(Icons.cast),
-                ),
-              ],
+            Visibility(
+              visible: widget.visible,
+              child: Center(
+                child: VideoControlButtons(controller: widget.controller,)
+              ),
             ),
-          ),
-          Align(
-            alignment: Alignment.bottomRight,
-            child: VideoTimeline(
-              controller: widget.controller,
+            AnimatedSlide(
+              duration: const Duration(milliseconds: 500),
+              curve: Curves.fastOutSlowIn,
+              offset: widget.visible ? const Offset(0.0, 0.0) : const Offset(0.0, -0.52),
+              child: Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    IconButton(
+                      onPressed: () {
+                        context.pop();
+                      },
+                      icon: const Icon(Icons.arrow_back, size: 28,),
+                    ),
+                    const Text("S1:E33 One Piece", style: TextStyle(fontSize: 15),),
+                    IconButton(
+                      onPressed: () {},
+                      icon: const Icon(Icons.cast),
+                    ),
+                  ],
+                ),
+              ),
             ),
-          ),
-        ],
+            Visibility(
+              visible: widget.visible,
+              child: Align(
+                alignment: Alignment.bottomCenter,
+                child: VideoTimeline(
+                  controller: widget.controller,
+                ),
+              ),
+            ),
+            AnimatedSlide(
+              duration: const Duration(milliseconds: 500),
+              curve: Curves.fastOutSlowIn,
+              offset: widget.visible ? const Offset(0.0, 0.0) : const Offset(0.0, 0.1),
+              child: const Padding(
+                padding: EdgeInsets.fromLTRB(0.0, 0.0, 0.0, 15.0),
+                child: Align(
+                  alignment: Alignment.bottomCenter,
+                  child: VideoToolbar(),
+                ),
+              ),
+            )
+          ],
+        ),
       ),
     );
   }

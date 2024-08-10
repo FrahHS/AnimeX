@@ -1,5 +1,6 @@
 import 'package:animex/services/logger.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:video_player/video_player.dart';
 
 class VideoTimeline extends StatefulWidget {
@@ -49,16 +50,28 @@ class _VideoTimelineState extends State<VideoTimeline> {
                 logger.d(_cursorPosition);
               });
             },
+            // Cursor drag
             onPanUpdate: (details) {
+              setState(() {
+                _cursorPosition = (details.localPosition.dx / _barLenght).clamp(0, 1);
+                if(_cursorPosition >= _barPosition - 0.002 && _cursorPosition <= _barPosition + 0.002) {
+                  HapticFeedback.vibrate();
+                }
+
+                logger.d(_cursorPosition);
+              });
+            },
+            onTapDown: (details) {
+              _isDragging = true;
               setState(() {
                 _cursorPosition = (details.localPosition.dx / _barLenght).clamp(0, 1);
                 logger.d(_cursorPosition);
               });
             },
             onTapUp: (details) {
+              _isDragging = false;
               logger.d("up");
               setState(() {
-                _cursorPosition = (details.localPosition.dx / _barLenght).clamp(0, 1);
                 widget.controller.seekTo(Duration(seconds: (_cursorPosition * widget.controller.value.duration.inSeconds).toInt()));
                 logger.d(_cursorPosition);
               });
