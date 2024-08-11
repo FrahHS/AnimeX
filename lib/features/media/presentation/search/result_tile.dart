@@ -29,7 +29,7 @@ class ResultTile extends StatelessWidget {
             color: Colors.transparent,
             child: InkWell(
               onTap: () {
-                context.go("/homepage/search/player");
+                context.go("/homepage/search/showcase");
               },
             ),
           ),
