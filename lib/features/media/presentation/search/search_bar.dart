@@ -3,29 +3,17 @@ import 'package:flutter/material.dart';
 class AppSearchBar extends StatefulWidget {
   const AppSearchBar({
     super.key,
+    required this.textController,
   });
+
+  final TextEditingController textController;
 
   @override
   State<AppSearchBar> createState() => _AppSearchBarState();
 }
 
 class _AppSearchBarState extends State<AppSearchBar> {
-
-  late TextEditingController _textController;
-  String _textControllerText = "";
-
-  _scrollListener() {
-    setState(() {
-      _textControllerText = _textController.text;
-    });
-  }
-
-  @override
-  void initState() {
-    _textController = TextEditingController();
-    _textController.addListener(_scrollListener);
-    super.initState();
-  }
+  final FocusNode _focusNode = FocusNode();
 
   @override
   Widget build(BuildContext context) {
@@ -35,7 +23,10 @@ class _AppSearchBarState extends State<AppSearchBar> {
           color: const Color.fromARGB(255, 44, 44, 44),
           padding: const EdgeInsets.fromLTRB(12.5, 2.5, 12.5, 2.5),
           child: TextField(
-            controller: _textController,
+            autofocus: true,
+            focusNode: _focusNode,
+            onTapOutside: (event) => _focusNode.unfocus(),
+            controller: widget.textController,
             decoration: const InputDecoration(
               border: InputBorder.none,
               hintText: 'Cerca anime',
@@ -47,24 +38,24 @@ class _AppSearchBarState extends State<AppSearchBar> {
           ),
         ),
         Visibility(
-          visible: _textControllerText != "",
+          visible: widget.textController.text != "",
           child: Positioned(
             right: 0,
             child: IconButton(
               onPressed: () {
-                _textController.text = "";
+                widget.textController.text = "";
               },
               icon: const Icon(Icons.close),
             ),
           )
         ),
         Visibility(
-          visible: _textControllerText == "",
+          visible: widget.textController.text == "",
           child: Positioned(
             right: 0,
             child: IconButton(
               onPressed: () async {
-                //TODO
+                //TODO: voice to text
               },
               icon: const Icon(Icons.mic_none),
             ),

@@ -10,6 +10,8 @@ dependencies:
   flutter:
     sdk: flutter
   go_router: ^14.2.3
+  html:
+  http: ^1.2.2
   logger: ^2.4.0
   readmore: ^3.0.0
   video_player: ^2.9.1
